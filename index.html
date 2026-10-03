@@ -93,6 +93,8 @@ select.sort { min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1p
 .badge-out { position: absolute; inset: 0; background: rgba(20,8,50,.55); color: #fff; display: grid; place-items: center; font-weight: 800; }
 .card .info { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .card .brandline { font-size: 12px; color: var(--muted); min-height: 1.5em; }
+.warranty { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--brand); font-weight: 700; margin-top: 2px; }
+.warranty svg { width: 13px; height: 13px; }
 .card .name { font-weight: 700; line-height: 1.6; background: none; border: 0; padding: 0; text-align: right; min-height: 3.2em; }
 .card .name:hover { color: var(--brand); }
 .prices { margin-top: auto; padding-top: 8px; }
@@ -125,6 +127,7 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
 .dtext h3 { margin: 0; font-size: 20px; line-height: 1.6; }
 .dtext .desc { color: var(--muted); white-space: pre-line; }
 .dtext .stock { font-size: 13px; color: var(--sale); }
+.dtext .warranty { font-size: 13px; }
 .close { position: absolute; top: 8px; inset-inline-start: 8px; width: 44px; height: 44px; border-radius: 12px; border: 0; background: var(--surface); font-size: 20px; }
 
 /* cart */
@@ -155,6 +158,55 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
 .none { color: var(--muted); text-align: center; padding: 40px 0; }
 .toast { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); inset-inline: 16px; margin: 0 auto; max-width: 440px; background: var(--ink); color: var(--bg); padding: 12px 16px; border-radius: 12px; z-index: 60; transform: translateY(160%); transition: transform .25s; font-size: 14px; }
 .toast.show { transform: none; }
+
+/* smart assistant */
+.fab {
+  position: fixed; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); inset-inline-start: 20px; z-index: 45;
+  width: 60px; height: 60px; border-radius: 50%; border: 0; cursor: pointer;
+  background: linear-gradient(145deg, var(--brand), #9a4dff);
+  color: #fff; display: grid; place-items: center; box-shadow: 0 10px 28px -8px rgba(106,31,208,.65);
+  animation: fabPulse 2.6s ease-in-out infinite;
+}
+.fab svg { width: 28px; height: 28px; }
+@keyframes fabPulse { 0%,100% { box-shadow: 0 10px 28px -8px rgba(106,31,208,.65); } 50% { box-shadow: 0 10px 34px -4px rgba(106,31,208,.85); } }
+#veilAsk { z-index: 44; }
+.askpanel {
+  position: fixed; z-index: 46; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); inset-inline-start: 20px;
+  width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 110px));
+  background: var(--surface); border-radius: 20px; border: 1px solid var(--line); overflow: hidden;
+  display: flex; flex-direction: column; box-shadow: 0 24px 60px -18px rgba(30,13,71,.5);
+  transform: translateY(16px) scale(.97); opacity: 0; pointer-events: none; transition: transform .22s, opacity .22s;
+}
+.askpanel.open { transform: none; opacity: 1; pointer-events: auto; }
+.ahead { background: linear-gradient(135deg, var(--brand), #9a4dff); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+.awho { display: flex; align-items: center; gap: 10px; }
+.awho b { display: block; font-size: 15px; }
+.awho small { display: block; font-size: 12px; opacity: .85; font-weight: 400; }
+.aavatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.2); display: grid; place-items: center; flex: none; }
+.aavatar svg { width: 20px; height: 20px; }
+.ahead .x { background: rgba(255,255,255,.18); color: #fff; }
+.amsgs { flex: 1; overflow-y: auto; padding: 14px 14px 6px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
+.abub { max-width: 84%; padding: 10px 13px; border-radius: 14px; font-size: 14px; line-height: 1.7; white-space: pre-line; }
+.abub.bot { align-self: flex-start; background: var(--surface); border: 1px solid var(--line); border-start-start-radius: 4px; }
+.abub.me { align-self: flex-end; background: var(--brand); color: #fff; border-start-end-radius: 4px; }
+.aprod { align-self: flex-start; max-width: 92%; display: flex; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; align-items: center; }
+.aprod .sw { width: 50px; height: 50px; border-radius: 10px; background: var(--tint); display: grid; place-items: center; overflow: hidden; flex: none; color: var(--brand); }
+.aprod .sw img { width: 100%; height: 100%; object-fit: cover; }
+.aprod .sw svg { width: 55%; height: 55%; }
+.aprod .pt { flex: 1; min-width: 0; font-size: 13px; }
+.aprod .pt b { display: block; font-size: 13.5px; margin-bottom: 2px; }
+.aprod .pt .pp { font-weight: 800; color: var(--brand); }
+.aprod button { min-height: 34px; padding: 0 12px; border-radius: 9px; border: 0; background: var(--brand); color: #fff; font-size: 12px; font-weight: 700; }
+.aquick { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 14px; background: var(--bg); }
+.aquick button { min-height: 34px; padding: 0 12px; border-radius: 18px; border: 1.5px solid var(--line); background: var(--surface); font-size: 12.5px; }
+.ainput { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); background: var(--surface); }
+.ainput input { flex: 1; min-height: 42px; border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; background: var(--bg); }
+.ainput button { width: 42px; height: 42px; border-radius: 12px; border: 0; background: var(--brand); color: #fff; display: grid; place-items: center; }
+.ainput button svg { width: 19px; height: 19px; }
+@media (max-width: 420px) {
+  .askpanel { inset-inline: 16px; width: auto; bottom: calc(92px + env(safe-area-inset-bottom, 0px)); height: min(500px, calc(100vh - 170px)); }
+  .fab { inset-inline-start: 16px; }
+}
 
 @media (max-width: 760px) {
   .hero { padding: 24px 0; }
@@ -217,7 +269,7 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
         <option value="def">مرتب‌سازی: پیش‌فرض</option>
         <option value="asc">ارزان‌ترین</option>
         <option value="desc">گران‌ترین</option>
-        <option value="disc">تخفیف داغ</option>
+        <option value="disc">بیشترین تخفیف</option>
       </select>
     </div>
     <div class="chips" id="chips"></div>
@@ -238,7 +290,23 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
 
 <dialog id="dlg" aria-label="جزئیات محصول"></dialog>
 
+<button class="fab" id="openAsk" aria-label="باز کردن دستیار هوشمند">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4.97 0 9 3.58 9 8s-4.03 8-9 8c-1.1 0-2.15-.18-3.12-.5L4 20l1.3-3.9C4.47 14.97 4 13.53 4 12c0-4.42 4.03-9 8-9z"/><circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+</button>
+
 <div class="veil" id="veil"></div>
+<div class="veil" id="veilAsk"></div>
+<aside class="askpanel" id="askPanel" aria-label="دستیار هوشمند فروشگاه" aria-hidden="true">
+  <div class="ahead">
+    <div class="awho"><span class="aavatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4.97 0 9 3.58 9 8s-4.03 8-9 8c-1.1 0-2.15-.18-3.12-.5L4 20l1.3-3.9C4.47 14.97 4 13.53 4 12c0-4.42 4.03-9 8-9z"/></svg></span>
+      <span><b id="askName">دستیار فروشگاه</b><small>همیشه آماده راهنمایی</small></span></div>
+    <button class="x" id="closeAsk" aria-label="بستن دستیار">✕</button>
+  </div>
+  <div class="amsgs" id="amsgs"></div>
+  <div class="aquick" id="aquick"></div>
+  <form class="ainput" id="aform"><input id="atext" type="text" placeholder="سوال خود را بنویسید…" autocomplete="off" aria-label="پیام شما"><button type="submit" aria-label="ارسال"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 10.5l7 2.5m11-10-5 18-5.5-9"/></svg></button></form>
+</aside>
+
 <aside class="drawer" id="drawer" aria-label="سبد خرید" aria-hidden="true">
   <div class="dhead"><h2>سبد خرید</h2><button class="x" id="closeCart" aria-label="بستن سبد خرید">✕</button></div>
   <div class="items" id="items"></div>
@@ -286,8 +354,10 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
     whatsapp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9 9.5c.3 2 2.2 4 4.5 4.6l1.3-1.2-1.6-1-.8.6c-.8-.4-1.5-1.1-1.9-1.9l.6-.8-1-1.6z"/></svg>',
     phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15 15 0 0 1 4 5a2 2 0 0 1 2-2z"/></svg>'
   };
-  var LABEL = { telegram: "تلگرام", instagram: "اینستاگرام", whatsapp: "واتساپ" };
+  var LABEL = { telegram: "تلگرام", instagram: "اینستاگرام", whatsapp: "واتس‌اپ" };
   var GEM = '<svg class="gem" viewBox="0 0 64 64" aria-hidden="true"><polygon points="32,6 50,24 32,58 14,24" fill="var(--brand)" opacity=".85"/><polygon points="32,6 32,58 14,24" fill="var(--brand)" opacity=".55"/><polygon points="14,24 50,24 32,6" fill="#fff" opacity=".2"/></svg>';
+  var SHIELD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>';
+  function warrantyHtml(p) { return p.warranty ? '<div class="warranty">' + SHIELD + esc(p.warranty) + '</div>' : ''; }
 
   function finalPrice(p) {
     var d = Number(p.discount) || 0, base = Number(p.price) || 0;
@@ -378,6 +448,7 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
         (sale ? '<span class="badge-sale">' + fmt(off) + '٪ تخفیف</span>' : '') +
         (inStock ? '' : '<span class="badge-out">ناموجود</span>') + '</button>' +
         '<div class="info"><div class="brandline">' + esc(p.brand || "") + '</div>' +
+        warrantyHtml(p) +
         '<button class="name" data-open="' + esc(p.id) + '">' + esc(p.name) + '</button>' +
         '<div class="prices"><div class="was">' + (sale ? fmt(p.price) : '') + '</div><div class="now">' + fmt(finalPrice(p)) + '<small>تومان</small></div></div>' +
         '<button class="add" data-add="' + esc(p.id) + '"' + (inStock ? '' : ' disabled') + '>' + (inStock ? 'افزودن به سبد' : 'ناموجود') + '</button></div></article>';
@@ -393,6 +464,7 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
       '<div class="brandline" style="color:var(--muted);font-size:13px">' + esc([p.brand, catLabel(p.category)].filter(Boolean).join(" • ")) + '</div>' +
       '<h3>' + esc(p.name) + '</h3>' +
       (p.desc ? '<div class="desc">' + esc(p.desc) + '</div>' : '') +
+      warrantyHtml(p) +
       (inStock && Number(p.stock) <= 3 ? '<div class="stock">فقط ' + fmt(p.stock) + ' عدد باقی مانده</div>' : '') +
       '<div class="prices"><div class="was">' + (sale ? fmt(p.price) + ' تومان' : '') + '</div><div class="now">' + fmt(finalPrice(p)) + '<small>تومان</small></div></div>' +
       '<button class="add" data-add="' + esc(p.id) + '" data-close="1"' + (inStock ? '' : ' disabled') + '>' + (inStock ? 'افزودن به سبد' : 'ناموجود') + '</button></div></div>';
@@ -501,8 +573,105 @@ dialog::backdrop { background: rgba(20,8,50,.6); }
   $("veil").onclick = function () { setDrawer(false); };
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("drawer").classList.contains("open")) setDrawer(false); });
 
+  /* ---------- smart assistant (rule-based, no server needed) ---------- */
+  var AS = S.assistant || {};
+  var askName = AS.name || "دستیار " + name;
+  $("askName").textContent = askName;
+  var faqs = AS.faqs || [];
+
+  function normKw(s) { return norm(String(s || "")); }
+  function addMsg(text, who) {
+    var d = document.createElement("div"); d.className = "abub " + who; d.textContent = text;
+    $("amsgs").appendChild(d); $("amsgs").scrollTop = $("amsgs").scrollHeight;
+  }
+  function addProductCard(p) {
+    var wrap = document.createElement("div"); wrap.className = "aprod";
+    wrap.innerHTML = '<div class="sw">' + picHtml(p) + '</div><div class="pt"><b>' + esc(p.name) + '</b>' +
+      '<span class="pp">' + fmt(finalPrice(p)) + ' تومان</span>' + (hasSale(p) ? ' · ' + fmt(Math.round((1 - finalPrice(p) / p.price) * 100)) + '٪ تخفیف' : '') +
+      (p.warranty ? '<br><span style="color:var(--muted);font-size:11.5px">' + esc(p.warranty) + '</span>' : '') + '</div>' +
+      '<button data-aadd="' + esc(p.id) + '"' + (Number(p.stock) > 0 ? '' : ' disabled') + '>' + (Number(p.stock) > 0 ? 'افزودن' : 'ناموجود') + '</button>';
+    $("amsgs").appendChild(wrap); $("amsgs").scrollTop = $("amsgs").scrollHeight;
+  }
+  function setQuick(buttons) {
+    $("aquick").innerHTML = buttons.map(function (b) { return '<button data-q="' + esc(b) + '">' + esc(b) + '</button>'; }).join("");
+  }
+  function quickCats() { return cats.filter(function (c) { return products.some(function (p) { return p.category === c.id; }); }).map(function (c) { return c.label; }); }
+
+  function showCategory(label) {
+    var c = cats.filter(function (x) { return x.label === label; })[0]; if (!c) return;
+    var items = products.filter(function (p) { return p.category === c.id; }).slice(0, 4);
+    addMsg("این‌ها رو تو دسته‌ی «" + label + "» داریم:", "bot");
+    items.forEach(addProductCard);
+    setQuick(quickCats().concat(["تخفیف‌دارها", "ارتباط با ما"]));
+  }
+
+  function answer(raw) {
+    var q = normKw(raw);
+    if (!q) return;
+
+    if (/تخفیف/.test(q)) {
+      var sale = products.filter(hasSale).slice(0, 4);
+      if (sale.length) { addMsg("این محصولات الان تخفیف دارند:", "bot"); sale.forEach(addProductCard); }
+      else addMsg("در حال حاضر تخفیف فعالی نداریم، ولی به‌زودی اضافه می‌شود.", "bot");
+      setQuick(quickCats()); return;
+    }
+    var catHit = cats.filter(function (c) { return q.indexOf(normKw(c.label)) > -1; })[0];
+    if (catHit) { showCategory(catHit.label); return; }
+
+    if (/ارتباط|تماس|آدرس|تلفن|شماره/.test(q)) {
+      var lines = [];
+      if (shop.phone) lines.push("تلفن: " + shop.phone);
+      if (shop.address) lines.push("آدرس: " + shop.address);
+      if (shop.hours) lines.push("ساعت کاری: " + shop.hours);
+      addMsg(lines.length ? lines.join("\n") : "برای ارتباط، از آیکون‌های تلگرام یا اینستاگرام بالای سایت استفاده کنید.", "bot");
+      setQuick(quickCats()); return;
+    }
+    if (/گارانتی|ضمانت/.test(q)) {
+      addMsg("گارانتی هر محصول زیر اسمش نوشته شده. کدوم محصول رو مد نظر دارید؟", "bot"); setQuick(quickCats()); return;
+    }
+
+    var faqHit = faqs.filter(function (f) { return (f.keywords || []).some(function (k) { return q.indexOf(normKw(k)) > -1; }); })[0];
+    if (faqHit) { addMsg(faqHit.answer, "bot"); setQuick(quickCats()); return; }
+
+    var hits = products.filter(function (p) { return normKw([p.name, p.brand, catLabel(p.category)].join(" ")).indexOf(q) > -1 || q.split(" ").some(function (w) { return w.length > 1 && normKw(p.name).indexOf(w) > -1; }); }).slice(0, 4);
+    if (hits.length) { addMsg("این مورد رو پیدا کردم:", "bot"); hits.forEach(addProductCard); setQuick(quickCats()); return; }
+
+    addMsg("متوجه نشدم، ولی می‌توانید یکی از دسته‌ها را انتخاب کنید یا سوال را طور دیگری بپرسید.", "bot");
+    setQuick(quickCats().concat(["تخفیف‌دارها", "ارتباط با ما"]));
+  }
+
+  var askStarted = false;
+  function startAsk() {
+    if (askStarted) return; askStarted = true;
+    addMsg(AS.greeting || ("سلام! من " + askName + " هستم. چه محصولی مد نظرتونه؟"), "bot");
+    setQuick(quickCats().concat(["تخفیف‌دارها", "ارتباط با ما"]));
+  }
+  function setAsk(open) {
+    $("askPanel").classList.toggle("open", open); $("veilAsk").classList.toggle("open", open);
+    $("askPanel").setAttribute("aria-hidden", open ? "false" : "true");
+    $("openAsk").style.display = open ? "none" : "";
+    if (open) { startAsk(); $("atext").focus(); } else { $("openAsk").focus(); }
+  }
+  $("openAsk").onclick = function () { setAsk(true); };
+  $("closeAsk").onclick = function () { setAsk(false); };
+  $("veilAsk").onclick = function () { setAsk(false); };
+  $("aquick").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-q]"); if (!b) return;
+    addMsg(b.dataset.q, "me"); answer(b.dataset.q);
+  });
+  $("amsgs").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-aadd]"); if (!b || b.disabled) return;
+    addToCart(b.dataset.aadd);
+  });
+  $("aform").addEventListener("submit", function (e) {
+    e.preventDefault(); var v = $("atext").value.trim(); if (!v) return;
+    addMsg(v, "me"); $("atext").value = ""; answer(v);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("askPanel").classList.contains("open")) setAsk(false); });
+
   renderChips(); renderGrid(); renderCart();
 })();
 </script>
 </body>
 </html>
+
